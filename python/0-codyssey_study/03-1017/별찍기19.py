@@ -1,0 +1,43 @@
+def createGrid(n):
+    size = 4 * n - 3
+    grid = [[' ' for _ in range(size)] for _ in range(size)]
+    return grid
+
+def getCenter(n):
+    size = 4 * n - 3
+    cx = cy = size // 2
+    return cx, cy
+
+def drawR(grid, center_x, center_y, n):
+    length = 4 * n - 3
+
+    start = center_x - (length // 2)
+    end = center_x + (length // 2)
+    
+    for x in range(start, end + 1):
+        grid[start][x] = '*'
+        grid[end][x] = '*'
+    
+    for y in range(start + 1, end):
+        grid[y][start] = '*'
+        grid[y][end] = '*'
+        
+def recursiveDraw(n, grid, cx, cy):
+    if n == 0:
+        return
+    drawR(grid, cx, cy, n)
+    recursiveDraw(n - 1, grid, cx, cy)
+
+def starPattern(n):
+    grid = createGrid(n)
+    cx, cy = getCenter(n)
+    recursiveDraw(n, grid, cx, cy)
+    
+    answer = ''
+    for row in grid:
+        answer += ''.join(row) + '\n'
+    
+    return answer
+
+n = int(input())
+print(starPattern(n))
